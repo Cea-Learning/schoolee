@@ -18,7 +18,7 @@ export class StudentService {
   getStudent(id: string): Promise<Student> {
     return this.studentRepository.findOne({id});
   }
-  createStudent(createStudentInput: CreateStudentInput): Promise<Student> {
+  async createStudent(createStudentInput: CreateStudentInput): Promise<Student> {
     const { firstName, lastName } = createStudentInput;
     const student = this.studentRepository.create({
       id: uuid(),
@@ -27,6 +27,12 @@ export class StudentService {
     })
     return this.studentRepository.save(student)
   }
-
+getManyStudents(studentsIds: string[]):Promise<Student[]>{
+  return this.studentRepository.find({
+    where:{
+      id: {$in: studentsIds}
+    }
+  })
+}
 
 }
